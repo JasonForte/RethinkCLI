@@ -36,3 +36,34 @@ $ # check that a table exists and if not create it.
 $ ./dbtool -host localhost -port 28015 ensure_table random_database.random_table.CUSTOM_PK 
 ```
 
+### Bootstrapping a Microservice
+
+Assuming an arbitrary python service that runs on port 3000 and requires a table `basic_table` in the `euwest1` database.
+
+`Dockerfile`
+
+```Dockerfile
+FROM python:3-onbuild
+
+COPY dbtool /usr/bin/dbtool
+
+COPY . /usr/src/app
+
+EXPOSE 3000
+
+CMD ["sh", "start_server.sh"]
+```
+
+`start_server.sh`
+
+```sh
+#!/bin/bash
+
+# Ensure that the database exists
+dbtool -host localhost -port 28015 ensure_database euwest1
+
+# Ensure that the required table exists
+dbtool -host localhost -port 28015 ensure_table euwest1.basic_table
+
+python server.py
+```
