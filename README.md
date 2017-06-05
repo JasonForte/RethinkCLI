@@ -5,7 +5,12 @@ CLI tool for RethinkDB
 
 This tool allows an automated script to ensure that a database / table exists before booting a microservice.
 
-## Runninng the Tool
+## Dependencies
+
+Libraries:
+ * [GoRethink/gorethink](https://github.com/GoRethink/gorethink)
+
+## Getting Started with this tool
 
  1. Clone this repo
  2. Run `make`
